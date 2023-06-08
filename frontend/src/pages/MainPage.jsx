@@ -26,25 +26,15 @@ export default function MainPage() {
 */
 
 import * as React from "react";
-import * as ReactDOM from "react-dom/client";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
-export default function MyApp() {
+export default function MainPage() {
   return(
     <List
     sx={{
@@ -69,18 +59,6 @@ export default function MyApp() {
         
       </Grid>
     </Box>
-
-    {/* <Divider component="li" />
-    <li>
-      <Typography
-        sx={{ mt: 0.5, ml: 2 }}
-        color="text.secondary"
-        display="block"
-        variant="caption"
-      >
-        Divider
-      </Typography>
-    </li> */}
 
     <Divider>
     </Divider>
@@ -161,9 +139,3 @@ export default function MyApp() {
   )
 
 }
-
-ReactDOM.createRoot(document.querySelector("#app")).render(
-  <React.StrictMode>
-    <MyApp />
-  </React.StrictMode>
-);
