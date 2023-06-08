@@ -1,2 +1,3 @@
-# Travel_RS
-Recommender System for Travel POIs
+# RS System Project Repo - Team 1
+
+Recommender System for Travel POIs.
