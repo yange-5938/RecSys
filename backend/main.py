@@ -104,3 +104,13 @@ async def create_trip_plan(user_id: str, req: PoiIdListModel = Body (...)):
     trip_plan = await db["trips"].insert_one(encoded_dct)
     await add_trip_plan_to_user(user_id, trip_plan.inserted_id)
     return ResponseModel("trip_plan", "Trip plan created successfully")
+
+@app.get(
+    "/rating-popularity-score/{city}", response_description="Get rating and popularity score list for corresponding city"
+)
+async def get_rating_popularity_score(city: str):
+    poi_list = await get_poi_list_by_city(city)
+    ids = [str(elt["_id"]) for elt in poi_list]
+    ratings = [elt["rating"] for elt in poi_list]
+    user_ratings_totals = [elt["user_ratings_total"] for elt in poi_list]
+    return {k: {"rating_score": r / 5.0, "popularity_score": u / max(user_ratings_totals)} for k, r, u in zip (ids, ratings, user_ratings_totals)}
