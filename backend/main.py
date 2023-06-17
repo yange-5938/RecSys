@@ -44,6 +44,14 @@ async def get_city_list():
     return city_list
 
 @app.get(
+    "/city-info/{city_name}", response_description="Get city info by city name.", response_model=CityModel
+)
+async def get_city_info(city_name: str):
+    city_info = await db["cities"].find_one({"name": city_name})
+    return city_info
+
+
+@app.get(
     "/poi-list/{city}", response_description="List all pois in the given city", response_model=List[PoiModel]
 )
 async def get_poi_list_by_city(city: str):
@@ -56,6 +64,21 @@ async def get_poi_list_by_city(city: str):
 async def get_poi_by_id(id: str):
     poi = await db["poi"].find_one({"_id": ObjectId(id)})
     return poi
+
+@app.post(
+    "/poi-locations", response_description="Get list of lat, lon of given POI list."
+)
+async def get_poi_location_list(req: PoiIdListModel = Body (...)):
+    poi_ids = req.poi_id_list
+    response = []
+    for poi_id in poi_ids:
+        poi_obj = await get_poi_by_id(poi_id)
+        response.append({"place_name": poi_obj["name"],
+                         "google_place_id": poi_obj["place_id"], 
+                         "lat": poi_obj["geometry"]["location"]["lat"], 
+                         "lon": poi_obj["geometry"]["location"]["lng"]})
+    return response
+        
 
 @app.get(
     "/user/{id}", response_description="Get user by id.", response_model=UserModel
@@ -85,6 +108,13 @@ async def update_user_by_id(id: str, body: dict):
 async def add_trip_plan_to_user(user_id: str, trip_plan_id: str):
     user = await db["users"].find_one({"_id": ObjectId(user_id)})
     await update_user_by_id(user_id, {"trip_ids": user["trip_ids"] + [trip_plan_id]})
+
+@app.get(
+    "/trip-plan/{trip_plan_id}", response_description="Get trip plan by ID.", response_model=TripModel
+)
+async def get_trip_plan(trip_plan_id: str):
+    trip_plan = await db["trips"].find_one({"_id": ObjectId(trip_plan_id)})
+    return trip_plan
 
 @app.post(
     "/trip-plan/create/{user_id}", response_description="Create trip plan with user ID"

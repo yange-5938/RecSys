@@ -20,6 +20,8 @@ class PyObjectId(ObjectId):
 class CityModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str = Field(...)
+    lat: float = Field(...)
+    lon: float = Field(...)
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
