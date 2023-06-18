@@ -7,9 +7,11 @@ import { useState } from "react";
 function App() {
   const [token, setToken] = useState();
 
-  if (!token) {
-    return <Login setToken={setToken} />;
-  }
+  // TODO: check if the token is valid, if not, redirect to login page
+  //
+  //if (!token) {
+  //  return <Login setToken={setToken} />;
+  //}
 
   return (
     <BrowserRouter>
