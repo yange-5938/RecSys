@@ -8,9 +8,9 @@ import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Link from "@mui/material/Link";
-import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import { loginUser } from "../queries/query";
 
 export default function LoginBox() {
   const [ID, setID] = useState();
@@ -23,15 +23,8 @@ export default function LoginBox() {
       password: data.get("password"),
     });
     setID(data.get("ID"));
-    setPassword(data.get("password"));
-    axios
-      .get("http://localhost:8000/user/" + data.get("ID"))
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch(function (error) {
-        console.log(error.toJSON());
-      });
+
+    loginUser(data.get("ID"));
   };
 
   return (
