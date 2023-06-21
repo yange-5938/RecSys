@@ -50,6 +50,8 @@ export default function TripPlanViewerPage() {
     }
   }, [mapCenter, poiLocationList]);
 
+  console.log(mapCenter, poiLocationList);
+
   return (
     <div>
       {/* <MapUpdate center={{ lat: 0, lon: 0 }} /> */}
@@ -65,12 +67,17 @@ export default function TripPlanViewerPage() {
             margin: 20,
           }}>
           <div style={{ width: "80%" }}>
-            <MapView mapCenter={mapCenter} poiList={poiLocationList} />
+            <MapView
+              mapCenter={mapCenter}
+              poiList={poiLocationList}
+              mapHeight={50}
+              zoom={12}
+            />
             <br />
             <Typography variant="h4">Trip Plan</Typography>
-            {poiLocationList.map(({ place_name }, index) => (
+            {poiLocationList.map(({ name }, index) => (
               <Typography variant="h6">
-                {index + 1} - {place_name}
+                {index + 1} - {name}
               </Typography>
             ))}
           </div>

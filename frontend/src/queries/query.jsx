@@ -3,6 +3,7 @@ import {
   HOST_CITY_INFO,
   HOST_POI_LOCATION_LIST,
   HOST_TRIP_PLAN,
+  HOST_POI_LIST_BY_CITY,
   HEADERS,
 } from "../common/constants";
 
@@ -36,5 +37,13 @@ export async function getPOILocationList(poiIdList) {
     mode: `cors`,
     headers: HEADERS,
     body: JSON.stringify(poiIdList),
+  }).then((response) => response.json());
+}
+
+export async function getPoiListByCity(city) {
+  return await fetch(`${HOST_POI_LIST_BY_CITY}/${city}`, {
+    method: `GET`,
+    mode: `cors`,
+    headers: HEADERS,
   }).then((response) => response.json());
 }

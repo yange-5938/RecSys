@@ -73,10 +73,8 @@ async def get_poi_location_list(req: PoiIdListModel = Body (...)):
     response = []
     for poi_id in poi_ids:
         poi_obj = await get_poi_by_id(poi_id)
-        response.append({"place_name": poi_obj["name"],
-                         "google_place_id": poi_obj["place_id"], 
-                         "lat": poi_obj["geometry"]["location"]["lat"], 
-                         "lon": poi_obj["geometry"]["location"]["lng"]})
+        del poi_obj["_id"]
+        response.append(poi_obj)
     return response
         
 

@@ -4,28 +4,42 @@ import PlaceIcon from "@mui/icons-material/Place";
 import { getCityInfo } from "../queries/query";
 const googleMapCredentials = require("../credentials/google_credentials.json");
 
-function MapView({ mapCenter, poiList }) {
+function MapView({ mapCenter, poiList, mapHeight, zoom }) {
+  const [mapList, setMapList] = useState(null);
+
+  useEffect(() => {
+    if (!poiList) {
+      return;
+    }
+    setMapList(
+      poiList.map((item) => {
+        return {
+          google_place_id: item.place_id,
+          lat: item.geometry.location.lat,
+          lon: item.geometry.location.lng,
+        };
+      })
+    );
+  }, [poiList]);
+
+  console.log(mapList);
+
   return (
-    <div style={{ height: "50vh", width: "100%" }}>
+    <div style={{ height: `${mapHeight}vh`, width: "100%" }}>
       <GoogleMapReact
+        key={mapList?.length}
         options={{ gestureHandling: "none", disableDefaultUI: true }}
         bootstrapURLKeys={{ key: googleMapCredentials.mapApiKey }}
         defaultCenter={mapCenter}
-        defaultZoom={12}>
-        {poiList.map((googleLocationInfo) => {
-          if (googleLocationInfo) {
-            return (
-              <PlaceIcon
-                key={googleLocationInfo.google_place_id}
-                fontSize="large"
-                sx={{ color: "#f44336" }}
-                lat={googleLocationInfo.lat}
-                lng={googleLocationInfo.lon}
-              />
-            );
-          }
-
-          return [];
+        defaultZoom={zoom}>
+        {mapList?.map((googleLocationInfo) => {
+          <PlaceIcon
+            key={googleLocationInfo.google_place_id}
+            fontSize="large"
+            sx={{ color: "#f44336" }}
+            lat={googleLocationInfo.lat}
+            lng={googleLocationInfo.lon}
+          />;
         })}
       </GoogleMapReact>
     </div>
