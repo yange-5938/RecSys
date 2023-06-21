@@ -6,7 +6,7 @@ import Paper from "@mui/material/Paper";
 import PlacesList from "../components/PlacesList";
 
 export default function TripPlanningPage() {
-  const [city, setCity] = useState("istanbul");
+  const [city, setCity] = useState("istanbul"); // TODO: this should be given as parameter.
   const [poiList, setPoiList] = useState(null);
   const [mapViewPoiList, setMapViewPoiList] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
@@ -23,16 +23,6 @@ export default function TripPlanningPage() {
     getPoiListByCity(city).then((data) => {
       if (data) {
         setPoiList(data);
-        // setMapViewPoiList([]);
-        // setMapViewPoiList(
-        //   data.map((item) => {
-        //     return {
-        //       google_place_id: item.place_id,
-        //       lat: item.geometry.location.lat,
-        //       lon: item.geometry.location.lng,
-        //     };
-        //   })
-        // );
       }
     });
   }, [city]);
@@ -45,7 +35,7 @@ export default function TripPlanningPage() {
     }
     getCityInfo(city).then((data) => {
       if (data) {
-        setMapCenter([Number(data.lat), Number(data.lon)]);
+        setMapCenter({ lat: data.lat, lng: data.lon });
         setLoading(false);
       }
     });
@@ -55,15 +45,13 @@ export default function TripPlanningPage() {
     <div>
       <Grid
         container
-        spacing={2}
         style={{
           display: "flex",
-          //   justifyContent: "center",
           width: "100%",
           margin: 20,
         }}>
         <Grid item xs={5}>
-          <Grid container spacing={2}>
+          <Grid container>
             <Grid item xs={12}>
               {loading ? (
                 <div> loading</div>
@@ -73,7 +61,7 @@ export default function TripPlanningPage() {
                     mapCenter={mapCenter}
                     poiList={mapViewPoiList}
                     mapHeight={50}
-                    zoom={11}
+                    zoom={10}
                   />
                 </div>
               )}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import PlaceIcon from "@mui/icons-material/Place";
-import { getCityInfo } from "../queries/query";
 const googleMapCredentials = require("../credentials/google_credentials.json");
 
 function MapView({ mapCenter, poiList, mapHeight, zoom }) {
@@ -32,15 +31,15 @@ function MapView({ mapCenter, poiList, mapHeight, zoom }) {
         bootstrapURLKeys={{ key: googleMapCredentials.mapApiKey }}
         defaultCenter={mapCenter}
         defaultZoom={zoom}>
-        {mapList?.map((googleLocationInfo) => {
+        {mapList?.map((googleLocationInfo) => (
           <PlaceIcon
             key={googleLocationInfo.google_place_id}
             fontSize="large"
             sx={{ color: "#f44336" }}
             lat={googleLocationInfo.lat}
             lng={googleLocationInfo.lon}
-          />;
-        })}
+          />
+        ))}
       </GoogleMapReact>
     </div>
   );
