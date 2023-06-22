@@ -3,7 +3,7 @@ import MapView from "../components/MapView";
 import { Typography, Grid } from "@mui/material";
 import { getPOILocationList, getTripPlan, getCityInfo } from "../queries/query";
 
-const tripPlanId = "64765c8a19c8de85ce9be342";
+const tripPlanId = "64765c1d19c8de85ce9be341";
 
 export default function TripPlanViewerPage() {
   const [tripPlan, setTripPlan] = useState(null);
@@ -60,27 +60,30 @@ export default function TripPlanViewerPage() {
       ) : (
         <Grid
           container
+          spacing={10}
           style={{
             display: "flex",
             justifyContent: "center",
             width: "100%",
-            margin: 20,
+            margin: 1,
           }}>
-          <div style={{ width: "80%" }}>
+          <Grid item xs={8}>
             <MapView
               mapCenter={mapCenter}
               poiList={poiLocationList}
-              mapHeight={50}
-              zoom={12}
+              mapHeight={80}
+              zoom={13}
             />
-            <br />
+          </Grid>
+
+          <Grid item xs={4}>
             <Typography variant="h4">Trip Plan</Typography>
             {poiLocationList.map(({ name }, index) => (
               <Typography variant="h6">
                 {index + 1} - {name}
               </Typography>
             ))}
-          </div>
+          </Grid>
         </Grid>
       )}
     </div>

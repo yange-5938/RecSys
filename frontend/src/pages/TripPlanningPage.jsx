@@ -61,7 +61,7 @@ export default function TripPlanningPage() {
                     mapCenter={mapCenter}
                     poiList={mapViewPoiList}
                     mapHeight={50}
-                    zoom={10}
+                    zoom={11}
                   />
                 </div>
               )}
