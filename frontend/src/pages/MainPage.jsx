@@ -45,6 +45,7 @@ const test_item = {
 
 
 export default function MainPage() {
+
   return (
     <List
       sx={{
@@ -64,7 +65,6 @@ export default function MainPage() {
       </Divider>
 
       <PersonPreference item={test_item}/>
-
 
     </List>
   )
