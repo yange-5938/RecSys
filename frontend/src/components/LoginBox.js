@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 
 import { loginUser } from "../queries/query";
+import { Link as Link2 } from "react-router-dom";
 
 export default function LoginBox() {
   const [ID, setID] = useState();
@@ -72,19 +73,16 @@ export default function LoginBox() {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
+          component={Link2}
+          to={"/"}
         >
           Sign In
         </Button>
 
-        <Grid container>
-          <Grid item xs></Grid>
+        <NavLink to="/register" variant="body2">
+          Don't have an account? Sign Up
+        </NavLink>
 
-          <Grid item>
-            <NavLink to="/register" variant="body2">
-              Don't have an account? Sign Up
-            </NavLink>
-          </Grid>
-        </Grid>
         <Copyright sx={{ mt: 5 }} />
       </Box>
     </Box>

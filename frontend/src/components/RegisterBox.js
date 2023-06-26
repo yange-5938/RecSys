@@ -9,6 +9,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Link from "@mui/material/Link";
 import { useState } from "react";
+import { Link as Link2 } from "react-router-dom";
 import {
   Slider,
   Select,
@@ -124,6 +125,8 @@ export default function LoginBox() {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
+          component={Link2}
+          to="/login"
         >
           Register
         </Button>

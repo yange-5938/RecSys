@@ -57,12 +57,22 @@ async def get_poi_by_id(id: str):
     poi = await db["poi"].find_one({"_id": ObjectId(id)})
     return poi
 
+
 @app.get(
     "/user/{id}", response_description="Get user by id.", response_model=UserModel
 )
 async def get_user_by_id(id: str):
     user = await db["users"].find_one({"_id": ObjectId(id)})
     return user
+
+# Endpoint for creating a new user
+@app.post("/users")
+async def create_user(user: UserModel):
+    user = jsonable_encoder(user)
+    new_user = await db["users"].insert_one(user)
+    created_user = await db["users"].find_one({"_id": new_user.inserted_id})
+    return ResponseModel(created_user, "User added successfully.")
+
 
 @app.put(
     "/user/{id}", response_description="Update user by id."
