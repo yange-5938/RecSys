@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import MapView from "../components/MapView";
 import { Typography, Grid } from "@mui/material";
+import { useParams } from "react-router-dom";
 import { getPOILocationList, getTripPlan, getCityInfo } from "../queries/query";
 
-const tripPlanId = "64765c8a19c8de85ce9be342";
+// const tripPlanId = "64765c1d19c8de85ce9be341";
 
 export default function TripPlanViewerPage() {
+  const { tripPlanId } = useParams();
   const [tripPlan, setTripPlan] = useState(null);
   const [poiLocationList, setPoiLocationList] = useState(null);
   const [city, setCity] = useState("");
@@ -50,6 +52,8 @@ export default function TripPlanViewerPage() {
     }
   }, [mapCenter, poiLocationList]);
 
+  console.log(mapCenter, poiLocationList);
+
   return (
     <div>
       {/* <MapUpdate center={{ lat: 0, lon: 0 }} /> */}
@@ -58,22 +62,30 @@ export default function TripPlanViewerPage() {
       ) : (
         <Grid
           container
+          spacing={10}
           style={{
             display: "flex",
             justifyContent: "center",
             width: "100%",
-            margin: 20,
+            margin: 1,
           }}>
-          <div style={{ width: "80%" }}>
-            <MapView mapCenter={mapCenter} poiList={poiLocationList} />
-            <br />
+          <Grid item xs={8}>
+            <MapView
+              mapCenter={mapCenter}
+              poiList={poiLocationList}
+              mapHeight={80}
+              zoom={13}
+            />
+          </Grid>
+
+          <Grid item xs={4}>
             <Typography variant="h4">Trip Plan</Typography>
-            {poiLocationList.map(({ place_name }, index) => (
+            {poiLocationList.map(({ name }, index) => (
               <Typography variant="h6">
-                {index + 1} - {place_name}
+                {index + 1} - {name}
               </Typography>
             ))}
-          </div>
+          </Grid>
         </Grid>
       )}
     </div>
