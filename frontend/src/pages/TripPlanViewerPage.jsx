@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import MapView from "../components/MapView";
 import { Typography, Grid } from "@mui/material";
+import { useParams } from "react-router-dom";
 import { getPOILocationList, getTripPlan, getCityInfo } from "../queries/query";
 
-const tripPlanId = "64765c1d19c8de85ce9be341";
+// const tripPlanId = "64765c1d19c8de85ce9be341";
 
 export default function TripPlanViewerPage() {
+  const { tripPlanId } = useParams();
   const [tripPlan, setTripPlan] = useState(null);
   const [poiLocationList, setPoiLocationList] = useState(null);
   const [city, setCity] = useState("");

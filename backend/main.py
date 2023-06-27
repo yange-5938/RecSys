@@ -118,6 +118,7 @@ async def get_trip_plan(trip_plan_id: str):
     "/trip-plan/create/{user_id}", response_description="Create trip plan with user ID"
 )
 async def create_trip_plan(user_id: str, req: PoiIdListModel = Body (...)):
+    
     poi_info_list = []
     poi_ids = req.poi_id_list
     for poi_id in poi_ids:
@@ -125,13 +126,14 @@ async def create_trip_plan(user_id: str, req: PoiIdListModel = Body (...)):
         city = poi_info["city"]
         poi_info_list.append(poi_info)
     location_indices_ordered = optimize(poi_info_list)
-    optimized_poi_ids = [list(poi_ids)[i] for i in location_indices_ordered]
+    optimized_poi_ids = [poi_ids[i] for i in location_indices_ordered]
     trip_plan_dct = {"city": city,
                      "poi_ids": optimized_poi_ids}
     encoded_dct = jsonable_encoder(trip_plan_dct)
     trip_plan = await db["trips"].insert_one(encoded_dct)
+    
     await add_trip_plan_to_user(user_id, trip_plan.inserted_id)
-    return ResponseModel("trip_plan", "Trip plan created successfully")
+    return ResponseModel({"tripPlanId": str(trip_plan.inserted_id)}, "Trip plan created successfully")
 
 @app.get(
     "/rating-popularity-score/{city}", response_description="Get rating and popularity score list for corresponding city"

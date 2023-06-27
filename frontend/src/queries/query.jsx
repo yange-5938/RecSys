@@ -4,6 +4,7 @@ import {
   HOST_POI_LOCATION_LIST,
   HOST_TRIP_PLAN,
   HOST_POI_LIST_BY_CITY,
+  HOST_CREATE_TRIP_PLAN,
   HEADERS,
 } from "../common/constants";
 
@@ -45,5 +46,15 @@ export async function getPoiListByCity(city) {
     method: `GET`,
     mode: `cors`,
     headers: HEADERS,
+  }).then((response) => response.json());
+}
+
+export async function createTripPlan(userId, poiIdList) {
+  console.log(userId, poiIdList);
+  return await fetch(`${HOST_CREATE_TRIP_PLAN}/${userId}`, {
+    method: `POST`,
+    mode: `cors`,
+    headers: HEADERS,
+    body: JSON.stringify(poiIdList),
   }).then((response) => response.json());
 }

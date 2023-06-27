@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import MapView from "../components/MapView";
-import { getPoiListByCity, getCityInfo } from "../queries/query";
+import {
+  getPoiListByCity,
+  getCityInfo,
+  createTripPlan,
+} from "../queries/query";
 import { Typography, Grid } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import PlacesList from "../components/PlacesList";
+import { Button } from "@mui/material";
 
 export default function TripPlanningPage() {
-  const [city, setCity] = useState("istanbul"); // TODO: this should be given as parameter.
+  const navigate = useNavigate();
+  const [city, setCity] = useState("munich"); // TODO: this should be given as parameter.
+  const [userId, setUserId] = useState("647606e7e3500e43856c4231"); // TODO: this should be given as parameter.
+  const [createdTripPlanId, setCreatedTripPlanId] = useState(null);
   const [poiList, setPoiList] = useState(null);
   const [mapViewPoiList, setMapViewPoiList] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
@@ -15,6 +24,21 @@ export default function TripPlanningPage() {
   const handleSelectionChange = (isSelectedList) => {
     setMapViewPoiList(poiList.filter((_, index) => isSelectedList[index]));
   };
+
+  const onComplete = () => {
+    createTripPlan(userId, {
+      poi_id_list: mapViewPoiList.map((obj) => String(obj._id)),
+    }).then((response) => {
+      setCreatedTripPlanId(response.data.tripPlanId);
+    });
+  };
+
+  useEffect(() => {
+    if (!createdTripPlanId) {
+      return;
+    }
+    navigate(`/trip-plan-view-page/${createdTripPlanId}`);
+  }, [createdTripPlanId]);
 
   useEffect(() => {
     if (!city) {
@@ -26,8 +50,6 @@ export default function TripPlanningPage() {
       }
     });
   }, [city]);
-
-  console.log(mapViewPoiList);
 
   useEffect(() => {
     if (!city) {
@@ -84,12 +106,21 @@ export default function TripPlanningPage() {
           </Grid>
         </Grid>
         <Grid item xs={7}>
-          <Paper style={{ maxHeight: "90vh", overflow: "auto" }}>
+          <Paper style={{ maxHeight: "80vh", overflow: "auto" }}>
             <PlacesList
               poiList={poiList}
               onSelectedPoiListChange={handleSelectionChange}
             />
           </Paper>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              marginTop: 20,
+            }}>
+            <Button onClick={onComplete}>Complete</Button>
+          </div>
         </Grid>
       </Grid>
     </div>
