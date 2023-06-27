@@ -6,6 +6,7 @@ import {
   HOST_POI_LIST_BY_CITY,
   HOST_CREATE_TRIP_PLAN,
   HEADERS,
+  HOST_CITY_LIST,
 } from "../common/constants";
 
 export async function getHelloWorld() {
@@ -43,6 +44,14 @@ export async function getPOILocationList(poiIdList) {
 
 export async function getPoiListByCity(city) {
   return await fetch(`${HOST_POI_LIST_BY_CITY}/${city}`, {
+    method: `GET`,
+    mode: `cors`,
+    headers: HEADERS,
+  }).then((response) => response.json());
+}
+
+export async function getCityList() {
+  return await fetch(`${HOST_CITY_LIST}`, {
     method: `GET`,
     mode: `cors`,
     headers: HEADERS,

@@ -6,6 +6,7 @@ export const HOST_POI_LOCATION_LIST = `${HOST}/poi-locations`;
 export const HOST_TRIP_PLAN = `${HOST}/trip-plan`;
 export const HOST_POI_LIST_BY_CITY = `${HOST}/poi-list`;
 export const HOST_CREATE_TRIP_PLAN = `${HOST}/trip-plan/create`;
+export const HOST_CITY_LIST = `${HOST}/city-list`;
 
 export const HEADERS = {
   "Access-Control-Allow-Origin": `http://localhost:3000`,
