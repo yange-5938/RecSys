@@ -1,4 +1,5 @@
 from sentence_transformers import SentenceTransformer, util
+import asyncio
 import json 
 import main.py
 import amsterdam.json, berlin.json, frankfurt.json, hamburg.json, istanbul.json, london.json, madrid.json, munich.json, paris.json, rome.json, vienna.json
@@ -21,8 +22,14 @@ def calculate_score(user_text, city="Berlin"):
     with open("reviews_en.json") as file:
         review_data = json.load(file)
 
-    # to get the number of POIs per city?
-    number_of_POIs_per_city = len(main.get_poi_list_by_city(city)) #call function from main.py ............
+
+    # Create an event loop
+    loop = asyncio.get_event_loop()
+    # Call the async function and run it in the event loop
+    number_of_POIs_per_city = loop.run_until_complete(len(main.get_poi_list_by_city(city)))
+    # Close the event loop
+    loop.close()
+
     review_vector = 0
     review_vector_avg = 0
     POIs_score = []
