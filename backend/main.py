@@ -66,6 +66,7 @@ async def get_user_by_id(id: str):
     return user
 
 # Endpoint for creating a new user
+## TODO
 @app.post("/users")
 async def create_user(user: UserModel):
     user = jsonable_encoder(user)
