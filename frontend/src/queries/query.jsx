@@ -1,5 +1,6 @@
 import {
   HOST_HELLO_WORLD,
+  HOST_USER,
   HOST_CITY_INFO,
   HOST_POI_LOCATION_LIST,
   HOST_TRIP_PLAN,
@@ -17,6 +18,35 @@ export async function getHelloWorld() {
   }).then((response) => response.json());
 }
 
+export async function loginUser(id) {
+  try {
+    return await fetch(HOST_USER + id, {
+      method: "GET",
+      mode: "cors",
+      headers: HEADERS,
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  } catch (error) {
+    alert("User not found");
+    window.location.reload();
+  }
+}
+
+// loginUser() using axios{
+//
+/*
+export async function loginUser2(){
+  return     axios
+  .get("http://localhost:8000/user/647606e7e3500e43856c4231")
+  .then((res) => {
+    console.log(res.data);
+  })
+  .catch(function (error) {
+    console.log(error.toJSON());
+  });}
+
+*/
 export async function getCityInfo(city) {
   return await fetch(`${HOST_CITY_INFO}/${city}`, {
     method: `GET`,
