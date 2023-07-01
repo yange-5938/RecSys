@@ -32,14 +32,14 @@ def calculate_score(user_text, city="Berlin"):
 
     review_vector = 0
     review_vector_avg = 0
-    POIs_score = []
+    POIs_text_score = []
 
     for n in range(number_of_POIs_per_city): 
         POI_id = data[n]["place_id"] #data is a dict created from the json file of the city
         number_of_api_reviews_per_POI = len(review_data[POI_id]["api_reviews"])
         number_of_scraper_reviews_per_POI = len(review_data[POI_id]["scraper_reviews"])
 
-        # getting the api_reviews
+        # converting the api_reviews into vectors
         for r in range(number_of_api_reviews_per_POI): #how many api reviews per POI?
             # check if there is an english review
             if review_data[POI_id]["api_reviews"][r]["text_en"]: 
@@ -64,9 +64,9 @@ def calculate_score(user_text, city="Berlin"):
 
         review_vector_avg = review_vector/(number_of_api_reviews_per_POI + number_of_scraper_reviews_per_POI) # averaging of the vectors
         score_per_POI = util.cos_sim(query_embedding, review_vector_avg) # score_per_POI = similarity between user_input vector and review_vector_avg
-        POIs_score.append(score_per_POI)
+        POIs_text_score.append(score_per_POI)
     
-    return POIs_score #list of all POI_scores
+    return POIs_text_score #list of all POI_text_scores
 
 
 
