@@ -1,69 +1,70 @@
+import numpy as np
 from sentence_transformers import SentenceTransformer, util
-import asyncio
-import json 
-import main
+from sklearn.metrics.pairwise import cosine_similarity
+import pickle
+import json
+# from main import get_poi_list_by_city # to use the endpoint in order to get the length of the POI_list per city
 
+model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
 
-from backend import main # to use the endpoint in order to get the length of the POI_list per city
-
-
-def calculate_score(user_text, city="Berlin"): 
-    model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
+def calculate_review_similarity_score(city, user_text): 
     query_embedding = model.encode(user_text, convert_to_tensor=True)
+    
+    with open(f'data/{city}_review_embeddings.pkl', 'rb') as f:
+        review_embeddings = np.array(pickle.load(f))
+    # review_sim_scores = [util.cos_sim(query_embedding, review_vector_avg) \
+    #     for review_vector_avg in review_embeddings] 
+    
+    review_sim_scores = cosine_similarity(review_embeddings, query_embedding.numpy().reshape(1,-1))
+    return review_sim_scores.flatten() #list of all POI_text_scores
 
 
-    # read in the reviews file
-    with open("reviews_en.json") as file:
+def save_review_vector_avg(city, poi_list_of_city):
+    with open("data/reviews_en.json") as file:
         review_data = json.load(file)
-
-
-    # Create an event loop
-    loop = asyncio.get_event_loop()
-    # Call the async function and run it in the event loop
-    number_of_POIs_per_city = loop.run_until_complete(main.get_poi_list_by_city(city))
-    # Close the event loop
-    loop.close()
-
     review_vector = 0
     review_vector_avg = 0
-    POIs_text_score = []
-
-    for n in range(number_of_POIs_per_city): 
-        POI_id = number_of_POIs_per_city[n]["place_id"] #data is a dict created from the json file of the city
+    POI_embeddings = []
+    for n in range(len(poi_list_of_city)): 
+        POI_id = poi_list_of_city[n]["place_id"] #data is a dict created from the json file of the city
         number_of_api_reviews_per_POI = len(review_data[POI_id]["api_reviews"])
         number_of_scraper_reviews_per_POI = len(review_data[POI_id]["scraper_reviews"])
 
+        reviews = []
         # converting the api_reviews into vectors
         for r in range(number_of_api_reviews_per_POI): #how many api reviews per POI?
             # check if there is an english review
-            if review_data[POI_id]["api_reviews"][r]["text_en"]: 
+            if "text_en" in review_data[POI_id]["api_reviews"][r].keys(): 
                 rev = review_data[POI_id]["api_reviews"][r]["text_en"]
-                passage_embedding = model.encode(rev, convert_to_tensor=True) # converting the review into a vector
-                review_vector += passage_embedding # sum of all vectors
+                if rev is not None:
+                    reviews.append(rev)
             else: # if the original review has already been in english
                 rev = review_data[POI_id]["api_reviews"][r]["text"]
-                passage_embedding = model.encode(rev, convert_to_tensor=True) # converting the review into a vector
-                review_vector += passage_embedding # sum of all vectors
+                if rev is not None:
+                    reviews.append(rev)
 
         # same for scraper_reviews
         for r in range(number_of_scraper_reviews_per_POI): #how many scraper reviews per POI?
-            if review_data[POI_id]["scraper_reviews"][r]["review_text_en"]: 
+            if "review_text_en" in review_data[POI_id]["scraper_reviews"][r].keys(): 
                 rev = review_data[POI_id]["scraper_reviews"][r]["review_text_en"]
-                passage_embedding = model.encode(rev, convert_to_tensor=True) # converting the review into a vector
-                review_vector += passage_embedding # sum of all vectors
-            else: 
-                rev = review_data[POI_id]["api_reviews"][r]["review_text"]
-                passage_embedding = model.encode(rev, convert_to_tensor=True) # converting the review into a vector
-                review_vector += passage_embedding # sum of all vectors
-
-        review_vector_avg = review_vector/(number_of_api_reviews_per_POI + number_of_scraper_reviews_per_POI) # averaging of the vectors
-        score_per_POI = util.cos_sim(query_embedding, review_vector_avg) # score_per_POI = similarity between user_input vector and review_vector_avg
-        POIs_text_score.append(score_per_POI)
-    
-    return POIs_text_score #list of all POI_text_scores
-
-
-
+                try:
+                    if rev is not None:
+                        reviews.append(rev)
+                except:
+                    continue
+            else:
+                try: 
+                    rev = review_data[POI_id]["api_reviews"][r]["review_text"]
+                    if rev is not None:
+                        reviews.append(rev)
+                except:
+                    continue
+        reviews_embedding = model.encode(reviews, convert_to_tensor=True) # converting the review into a vector
+        poi_reviews_embed = np.mean(reviews_embedding.numpy(), axis=0) # averaging of the vectors
+        POI_embeddings.append(poi_reviews_embed)
+    with open(f'data/{city}_review_embeddings.pkl', 'wb') as f:
+        pickle.dump(POI_embeddings, f)
+        
 
 """
 #text from user input

@@ -6,9 +6,10 @@ from typing import List
 import yaml
 from fastapi.middleware.cors import CORSMiddleware
 from models import CityModel, UserModel, PoiModel, TripModel, PoiIdListModel,\
-    ResponseModel, UpdateUserModel
+    ResponseModel, UpdateUserModel, RecommendationParamsModel
 from route_optimizer import optimize
-
+from total_score import get_total_score
+from text_similarity import save_review_vector_avg
 
 with open("credentials.yaml", 'r') as fp:
     credentials = yaml.safe_load(fp)
@@ -55,7 +56,7 @@ async def get_city_info(city_name: str):
     "/poi-list/{city}", response_description="List all pois in the given city", response_model=List[PoiModel]
 )
 async def get_poi_list_by_city(city: str):
-    poi_list = await db["poi"].find({"city": city}).to_list(1000)
+    poi_list = await db["poi"].find({"city": city}).sort("_id").to_list(1000)
     return poi_list
 
 @app.get(
@@ -154,3 +155,28 @@ async def get_rating_popularity_score(city: str):
     ratings = [elt["rating"] for elt in poi_list]
     user_ratings_totals = [elt["user_ratings_total"] for elt in poi_list]
     return {k: {"rating_score": r / 5.0, "popularity_score": u / max(user_ratings_totals)} for k, r, u in zip (ids, ratings, user_ratings_totals)}
+
+@app.post(
+    "/get-recommended-poi-list", response_description="Get poi list in recommended order"
+)
+async def get_recommended_poi_list(params: RecommendationParamsModel = Body (...)):
+    city = params.city
+    user_text = params.user_text
+    user_age = params.user_age
+    user_gender = params.user_gender
+    poi_list = await get_poi_list_by_city(city)
+    poi_scores = get_total_score(city, user_age, user_gender, user_text, poi_list)
+    pairs = zip(poi_list, poi_scores)
+    sorted_pairs = sorted(pairs, key=lambda x: x[1]) #sort according to scores
+    sorted_list_poi_list, _ = zip(*sorted_pairs) #unpack the pairs
+    for poi in sorted_list_poi_list:
+        poi["_id"] = str(poi["_id"])
+    return sorted_list_poi_list
+
+@app.get(
+    "/save-review-embeddings/{city}", response_description="Save reviews text embeddings for corresponding city"
+)
+async def get_rating_popularity_score(city: str):
+    poi_list = await get_poi_list_by_city(city)
+    save_review_vector_avg(city, poi_list)
+    return ResponseModel(city, "Review embeddings saved!")

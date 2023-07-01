@@ -82,6 +82,12 @@ class TripModel(BaseModel):
         
 class PoiIdListModel(BaseModel):
     poi_id_list: List = Field(...)
+
+class RecommendationParamsModel(BaseModel):
+    city: str = Field(...)
+    user_text: str = Field(...)
+    user_age: int = Field(...)
+    user_gender: int = Field(...)
     
 def ResponseModel(data, message):
     return {
