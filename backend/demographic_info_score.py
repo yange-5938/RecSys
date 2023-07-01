@@ -3,31 +3,27 @@ import main
 import asyncio
 import author_demographics.json
 
-with open(author_demographics.json) as file:
-    demographics_data = json.load(file)
-
-with open("reviews_en.json") as file:
-    review_data = json.load(file)
-
 
 
 def demographic_info_score(user_age, user_gender, city):
     count, author_age, author_gender = 0
     POIs_demogr_score = []
 
-    # Create an event loop
+    with open("author_demographics.json") as file:
+        demographics_data = json.load(file)
+
+    with open("reviews_en.json") as file:
+        review_data = json.load(file)
+
+    # Create an event loop, due to async
     loop = asyncio.get_event_loop()
     # Call the async function and run it in the event loop
-    number_of_POIs_per_city = loop.run_until_complete(len(main.get_poi_list_by_city(city)))
+    POI_list_per_city = loop.run_until_complete(main.get_poi_list_by_city(city))
     # Close the event loop
     loop.close()
 
-    # read in the json file of the city
-    with open(city".json") as file:
-        data = json.load(file)
-
-    for n in range(number_of_POIs_per_city): 
-        POI_id = data[n]["place_id"] #data is a dict created from the json file of the city
+    for n in range(POI_list_per_city): 
+        POI_id = POI_list_per_city[n]["place_id"] #data is a dict created from the json file of the city
         number_of_api_reviews_per_POI = len(review_data[POI_id]["api_reviews"])
         number_of_scraper_reviews_per_POI = len(review_data[POI_id]["scraper_reviews"])
 

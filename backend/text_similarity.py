@@ -1,11 +1,8 @@
 from sentence_transformers import SentenceTransformer, util
 import asyncio
 import json 
-import main.py
-import amsterdam.json, berlin.json, frankfurt.json, hamburg.json, istanbul.json, london.json, madrid.json, munich.json, paris.json, rome.json, vienna.json
-#read .json file to access the reviews by the POI_id
+import main
 
-# model paraphrase-MiniLM-L6-v2 
 
 from backend import main # to use the endpoint in order to get the length of the POI_list per city
 
@@ -14,9 +11,6 @@ def calculate_score(user_text, city="Berlin"):
     model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
     query_embedding = model.encode(user_text, convert_to_tensor=True)
 
-    # read in the json file of the city
-    with open(city".json") as file:
-        data = json.load(file)
 
     # read in the reviews file
     with open("reviews_en.json") as file:
@@ -26,7 +20,7 @@ def calculate_score(user_text, city="Berlin"):
     # Create an event loop
     loop = asyncio.get_event_loop()
     # Call the async function and run it in the event loop
-    number_of_POIs_per_city = loop.run_until_complete(len(main.get_poi_list_by_city(city)))
+    number_of_POIs_per_city = loop.run_until_complete(main.get_poi_list_by_city(city))
     # Close the event loop
     loop.close()
 
@@ -35,7 +29,7 @@ def calculate_score(user_text, city="Berlin"):
     POIs_text_score = []
 
     for n in range(number_of_POIs_per_city): 
-        POI_id = data[n]["place_id"] #data is a dict created from the json file of the city
+        POI_id = number_of_POIs_per_city[n]["place_id"] #data is a dict created from the json file of the city
         number_of_api_reviews_per_POI = len(review_data[POI_id]["api_reviews"])
         number_of_scraper_reviews_per_POI = len(review_data[POI_id]["scraper_reviews"])
 
