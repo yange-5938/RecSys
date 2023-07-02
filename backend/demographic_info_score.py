@@ -21,8 +21,8 @@ def get_demographic_info_score(demographics_data, review_data, user_age,
         av_age = author_age/count
         av_gender = author_gender/count
 
-        age_score = 1/(user_age - av_age)
-        gender_score =1/(user_gender - av_gender)
+        age_score = 1/(abs(user_age-av_age)+1)
+        gender_score =1/(abs(user_gender-av_gender)+1)
 
         demogr_score = age_score * gender_score
         POIs_demogr_score.append(demogr_score)
