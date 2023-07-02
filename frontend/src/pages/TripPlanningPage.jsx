@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import MapView from "../components/MapView";
 import {
   getPoiListByCity,
@@ -13,7 +13,8 @@ import { Button } from "@mui/material";
 
 export default function TripPlanningPage() {
   const navigate = useNavigate();
-  const [city, setCity] = useState("munich"); // TODO: this should be given as parameter.
+  const location = useLocation();
+  const [city, setCity] = useState(null);
   const [userId, setUserId] = useState("647606e7e3500e43856c4231"); // TODO: this should be given as parameter.
   const [createdTripPlanId, setCreatedTripPlanId] = useState(null);
   const [poiList, setPoiList] = useState(null);
@@ -41,15 +42,20 @@ export default function TripPlanningPage() {
   }, [createdTripPlanId]);
 
   useEffect(() => {
-    if (!city) {
-      return;
-    }
-    getPoiListByCity(city).then((data) => {
-      if (data) {
-        setPoiList(data);
-      }
-    });
-  }, [city]);
+    setCity(location.state.city);
+    setPoiList(location.state.recommendedPoiList);
+  }, []);
+
+  // useEffect(() => {
+  //   if (!city) {
+  //     return;
+  //   }
+  //   getPoiListByCity(city).then((data) => {
+  //     if (data) {
+  //       setPoiList(data);
+  //     }
+  //   });
+  // }, [city]);
 
   useEffect(() => {
     if (!city) {
@@ -63,8 +69,17 @@ export default function TripPlanningPage() {
     });
   }, [city]);
 
+  console.log(city, poiList);
+
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+
+        marginTop: 50,
+      }}>
       <Grid
         container
         style={{

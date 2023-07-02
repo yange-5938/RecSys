@@ -9,6 +9,7 @@ import Profi from "./components/Login_Authen_Components/Profile/Profile";
 import Registrer from "./pages/RegistrationPage";
 import TripPlanViewerPage from "./pages/TripPlanViewerPage";
 import TripPlanningPage from "./pages/TripPlanningPage";
+import NavigationBar from "./components/NavigationBar";
 
 
 function setToken(userToken) {
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <NavigationBar/>
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<Login />} />

@@ -176,7 +176,7 @@ async def get_recommended_poi_list(params: RecommendationParamsModel = Body (...
 @app.get(
     "/save-review-embeddings/{city}", response_description="Save reviews text embeddings for corresponding city"
 )
-async def get_rating_popularity_score(city: str):
+async def save_review_embeddings(city: str):
     poi_list = await get_poi_list_by_city(city)
     save_review_vector_avg(city, poi_list)
     return ResponseModel(city, "Review embeddings saved!")
