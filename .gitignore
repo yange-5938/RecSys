@@ -3,3 +3,6 @@ frontend/src/credentials/*
 backend/credentials.yaml
 .DS_Store
 */__pycache__/*
+backend/llm_service/openai_credentials.json
+backend/llm_service/__pycache__/*
+backend/llm_service/__pycache__/*

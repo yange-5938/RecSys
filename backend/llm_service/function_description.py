@@ -18,12 +18,12 @@ function_description_entity_extractor = [
           "category": {
             "type": "string",
             "description": "List of touristic place category that is included in the input text",
-            "enum": ["History", "Museums", "Nature", "Architecture", "Culture", "Theme Parks",
-                    "Beaches", "Wildlife", "Adventure", "Religion", "Food", "Shopping", "Gardens",
-                    "Sport", "Science", "Wineries", "Festivals", "Scenic Views", "Caves", "Music", 
-                    "Theatre", "Music", "Waterfalls", "Botanical", "Zoo", "Castle", "Spa", 
-                    "Amusement Park", "Wine Yard", "Heritage", "Lakeside", "River", "Ancient",
-                    "Art Gallery"]            
+            "enum": ["History", "Museums", "Nature", "Architecture", "Culture", "Theme Parks", 
+                     "Beaches", "Wildlife", "Adventure", "Religion", "Food", "Shopping", 
+                     "Gardens", "Sport", "Science", "Wineries", "Festivals", "Scenic Views", 
+                     "Caves", "Music", "Theatre", "Music", "Waterfalls", "Botanical", "Zoo", 
+                     "Castle", "Spa", "Amusement Park", "Wine Yard", "Heritage", "Lakeside", 
+                     "River", "Ancient", "Art Gallery", "Church", "Mosque" ]            
           },
           
         },
