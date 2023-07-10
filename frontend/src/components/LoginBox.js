@@ -15,19 +15,24 @@ import { loginUser } from "../queries/query";
 import { Link as Link2 } from "react-router-dom";
 
 export default function LoginBox() {
-  const [ID, setID] = useState();
-  const [password, setPassword] = useState();
+  const [Email, setEmail] = useState();
+  const [Password, setPassword] = useState();
+
   const handleSubmit = (event) => {
+    alert("Login Successful!");
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      ID: data.get("ID"),
+      email: data.get("Email"),
       password: data.get("password"),
     });
-    setID(data.get("ID"));
+    setEmail(data.get("Email"));
+    setPassword(data.get("password"));
 
-    loginUser(data.get("ID"));
+    console.log(Email);
+    console.log(Password);
   };
+
   const navigate = useNavigate();
   return (
     <Box
@@ -43,16 +48,18 @@ export default function LoginBox() {
       <Typography component="h1" variant="h5">
         Sign in
       </Typography>
+
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
           fullWidth
-          id="ID"
-          label="Your ID"
-          name="ID"
-          autoComplete="ID"
+          id="Email"
+          label="Your Email"
+          name="Email"
+          autoComplete="Email"
           autoFocus
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           margin="normal"

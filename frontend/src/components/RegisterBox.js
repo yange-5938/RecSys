@@ -88,31 +88,21 @@ export default function LoginBox() {
         <TextField margin="normal" required fullWidth label="First Name" />
         <TextField margin="normal" required fullWidth label="Last Name" />
         <TextField margin="normal" required fullWidth label="Age" />
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <FormControl margin="normal" required fullWidth label="Gender">
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             value={age}
             onChange={handleChange}
-            label="Age"
           >
             <MenuItem value={0}>Male</MenuItem>
             <MenuItem value={1}>Female</MenuItem>
-            <MenuItem value={2}>prefer not to say</MenuItem>
+            <MenuItem value={2}>Other</MenuItem>
           </Select>
-          <FormHelperText>Gender</FormHelperText>
+          <FormHelperText required>Gender</FormHelperText>
         </FormControl>
 
-        <Typography gutterBottom>Fitness Level</Typography>
-        <Slider
-          // aria-label="Custom marks"
-          defaultValue={30}
-          step={10}
-          valueLabelDisplay={true}
-          marks={marks}
-        />
-
-        <TextField margin="normal" fullWidth label="Email" />
+        <TextField margin="normal" required fullWidth label="Email" />
         <TextField margin="normal" required fullWidth label="Password" />
         <TextField
           margin="normal"

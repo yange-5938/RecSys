@@ -18,9 +18,9 @@ export async function getHelloWorld() {
   }).then((response) => response.json());
 }
 
-export async function loginUser(id) {
+export async function loginUser(email) {
   try {
-    return await fetch(HOST_USER + id, {
+    return await fetch(HOST_USER + email, {
       method: "GET",
       mode: "cors",
       headers: HEADERS,
