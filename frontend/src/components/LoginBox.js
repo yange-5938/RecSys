@@ -15,22 +15,25 @@ import { loginUser } from "../queries/query";
 import { Link as Link2 } from "react-router-dom";
 
 export default function LoginBox() {
-  const [Email, setEmail] = useState();
-  const [Password, setPassword] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
   const handleSubmit = (event) => {
-    alert("Login Successful!");
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("Email"),
-      password: data.get("password"),
+    loginUser(email).then((data) => {
+      //
+      // TODO: Check if the user password is correct
+      //
+      //   if (data) {
+      //     if (data.password === password) {
+      //       navigate("/home", { replace: true });
+      //     } else {
+      //       alert("Password is incorrect");
+      //     }
+      //   } else {
+      //     alert;
+      //   }
     });
-    setEmail(data.get("Email"));
-    setPassword(data.get("password"));
-
-    console.log(Email);
-    console.log(Password);
   };
 
   const navigate = useNavigate();
@@ -70,6 +73,7 @@ export default function LoginBox() {
           type="password"
           id="password"
           autoComplete="current-password"
+          onChange={(e) => setPassword(e.target.value)}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
@@ -80,8 +84,6 @@ export default function LoginBox() {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
-          component={Link2}
-          to={"/"}
         >
           Sign In
         </Button>
