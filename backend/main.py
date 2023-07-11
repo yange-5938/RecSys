@@ -100,7 +100,7 @@ async def get_user_by_email(email: str):
     return user
 
 # Endpoint for creating a new user
-@app.post("/user", response_description="Add new user", response_model=UserModel)
+@app.post("/user/create", response_description="Add new user", response_model=UserModel)
 async def create_user(user: UserModel = Body(...)):
     user.id = ObjectId(user.id)
     user = jsonable_encoder(user)
