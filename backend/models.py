@@ -31,6 +31,8 @@ class CityModel(BaseModel):
 class UserModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     # username: str = Field(...)
+    first_name: str = Field(...)
+    last_name: str = Field(...)
     email: str = Field(...)
     password: str = Field(...)
     age: int = Field(...)

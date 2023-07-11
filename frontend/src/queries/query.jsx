@@ -51,9 +51,11 @@ export async function listUsers() {
 }
 
 // create a new user 
-export async function registerUser(email, password, age, gender) {
+export async function registerUser(firstname, lastname, email, password, age, gender) {
 
   const data = {
+    firstname: firstname,
+    lastname: lastname,
     email: email,
     password: password,
     age: age,
