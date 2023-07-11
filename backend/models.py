@@ -53,7 +53,7 @@ class UserModel(BaseModel):
         }
         
 class UpdateUserModel(BaseModel):
-    username: Optional[str] = Field(...)
+    # username: Optional[str] = Field(...)
     email: Optional[str] = Field(...)
     age: Optional[int] = Field(...)
     gender: Optional[str] = Field(...)
