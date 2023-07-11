@@ -8,8 +8,11 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
 import { getCityList } from "../queries/query";
-
+import { Alert, Button } from "@mui/material";
+import { useNavigate, NavLink } from "react-router-dom";
+import LogoutButton from "../components/LogoutButton";
 export default function MainPage() {
+  const navigate = useNavigate();
   const [cityList, setCityList] = useState([]);
   const [city, setCity] = useState("");
 
@@ -22,6 +25,27 @@ export default function MainPage() {
   };
 
   console.log(cityList, city);
+  const user_first_name = localStorage.getItem("user_first_name");
+  const user_last_name = localStorage.getItem("user_last_name");
+  const user_age = localStorage.getItem("user_age");
+  const user_gender = localStorage.getItem("user_gender");
+  const user_email = localStorage.getItem("user_email");
+  console.log("welcome "+ user_first_name + " "+ user_last_name)
+
+  if (user_first_name === null || user_last_name === null) {
+    return (
+      <div>
+        <Alert severity="error">Please login first!</Alert>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("/login")}>
+          Login
+        </Button>
+      </div>
+    );
+  }
+  
 
   return (
     <List
@@ -30,6 +54,7 @@ export default function MainPage() {
         //maxWidth: 360, <Item>xs=6 md=8</Item>
         bgcolor: "background.paper",
       }}>
+        <LogoutButton/>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid xs={4} xl={4}>

@@ -12,26 +12,26 @@ import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 
 import { loginUser } from "../queries/query";
-import { Link as Link2 } from "react-router-dom";
 
 export default function LoginBox() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [age, setAge] = useState("");
   const [email, setEmail] = useState("");
   const [input_password, setInputPassword] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     loginUser(email).then((data) => {
-      const { first_name, last_name, password, gender, age, email } = data; // Extract the name and password from the response data
+      const { password } = data; // Extract the password from the response data
       if (password === input_password) {
-        setFirstName(first_name);
-        setLastName(last_name);
-        setGender(gender);
-        setAge(age);
-        setEmail(email);
+        const user_first_name = data.first_name;
+        const user_last_name = data.last_name;
+        const user_age = data.age;
+        const user_gender = data.gender;
+        const user_email = data.email;
+        localStorage.setItem("user_first_name", user_first_name);
+        localStorage.setItem("user_last_name", user_last_name);
+        localStorage.setItem("user_age", user_age);
+        localStorage.setItem("user_gender", user_gender);
+        localStorage.setItem("user_email", user_email);
         navigate("/", { replace: true });
       } else {
         alert("Password is incorrect");
