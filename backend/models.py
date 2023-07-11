@@ -45,7 +45,8 @@ class UserModel(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "name": "Example User",
+                "first_name": "Anil",
+                "last_name": "Kul",
                 "email": "anil.kul@tum.de",
                 "password":"ak1234",
                 "age": 24,

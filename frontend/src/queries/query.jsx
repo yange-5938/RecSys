@@ -54,8 +54,8 @@ export async function listUsers() {
 export async function registerUser(firstname, lastname, email, password, age, gender) {
 
   const data = {
-    firstname: firstname,
-    lastname: lastname,
+    first_name: firstname,
+    last_name: lastname,
     email: email,
     password: password,
     age: age,
