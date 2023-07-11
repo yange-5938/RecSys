@@ -181,7 +181,7 @@ async def get_recommended_poi_list(params: RecommendationParamsModel = Body (...
     poi_list = await get_poi_list_by_city(city)
     poi_scores = get_total_score(city, user_age, user_gender, user_text, poi_list)
     pairs = zip(poi_list, poi_scores)
-    sorted_pairs = sorted(pairs, key=lambda x: x[1]) #sort according to scores
+    sorted_pairs = sorted(pairs, key=lambda x: x[1], reverse=True) #sort according to scores
     sorted_list_poi_list, _ = zip(*sorted_pairs) #unpack the pairs
     for poi in sorted_list_poi_list:
         poi["_id"] = str(poi["_id"])
@@ -190,7 +190,7 @@ async def get_recommended_poi_list(params: RecommendationParamsModel = Body (...
 @app.get(
     "/save-review-embeddings/{city}", response_description="Save reviews text embeddings for corresponding city"
 )
-async def get_rating_popularity_score(city: str):
+async def save_review_embeddings(city: str):
     poi_list = await get_poi_list_by_city(city)
     save_review_vector_avg(city, poi_list)
     return ResponseModel(city, "Review embeddings saved!")

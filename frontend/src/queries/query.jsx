@@ -10,6 +10,7 @@ import {
   HOST_CITY_LIST,
   HOST_USERS,
   HOST_CREATE_USER,
+  HOST_RECOMMENDED_POI_LIST,
 } from "../common/constants";
 
 export async function getHelloWorld() {
@@ -155,5 +156,14 @@ export async function createTripPlan(userId, poiIdList) {
     mode: `cors`,
     headers: HEADERS,
     body: JSON.stringify(poiIdList),
+  }).then((response) => response.json());
+}
+
+export async function getRecommendedPoiList(body) {
+  return await fetch(`${HOST_RECOMMENDED_POI_LIST}`, {
+    method: `POST`,
+    mode: `cors`,
+    headers: HEADERS,
+    body: JSON.stringify(body),
   }).then((response) => response.json());
 }
