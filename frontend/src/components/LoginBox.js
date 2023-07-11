@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 
 import { loginUser } from "../queries/query";
+import { Link as Link2 } from "react-router-dom";
 
 export default function LoginBox() {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ export default function LoginBox() {
   const handleSubmit = (event) => {
     event.preventDefault();
     loginUser(email).then((data) => {
-      const { password } = data; // Extract the password from the response data
+      const { password } = data; // Extract t password from the response data
       if (password === input_password) {
         const user_first_name = data.first_name;
         const user_last_name = data.last_name;
@@ -37,21 +38,6 @@ export default function LoginBox() {
         alert("Password is incorrect");
       }
     });
-
-    //.then((data) => {
-    //
-    // TODO: Check if the user password is correct
-    //
-    //   if (data) {
-    //     if (data.password === password) {
-    //       navigate("/home", { replace: true });
-    //     } else {
-    //       alert("Password is incorrect");
-    //     }
-    //   } else {
-    //     alert;
-    //   }
-    //  });
   };
 
   const navigate = useNavigate();
