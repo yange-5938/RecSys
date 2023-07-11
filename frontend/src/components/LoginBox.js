@@ -15,25 +15,43 @@ import { loginUser } from "../queries/query";
 import { Link as Link2 } from "react-router-dom";
 
 export default function LoginBox() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("");
+  const [age, setAge] = useState("");
+  const [email, setEmail] = useState("");
+  const [input_password, setInputPassword] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     loginUser(email).then((data) => {
-      //
-      // TODO: Check if the user password is correct
-      //
-      //   if (data) {
-      //     if (data.password === password) {
-      //       navigate("/home", { replace: true });
-      //     } else {
-      //       alert("Password is incorrect");
-      //     }
-      //   } else {
-      //     alert;
-      //   }
+      const { first_name, last_name, password, gender, age, email } = data; // Extract the name and password from the response data
+      if (password === input_password) {
+        setFirstName(first_name);
+        setLastName(last_name);
+        setGender(gender);
+        setAge(age);
+        setEmail(email);
+        navigate("/", { replace: true });
+      } else {
+        alert("Password is incorrect");
+      }
     });
+
+    //.then((data) => {
+    //
+    // TODO: Check if the user password is correct
+    //
+    //   if (data) {
+    //     if (data.password === password) {
+    //       navigate("/home", { replace: true });
+    //     } else {
+    //       alert("Password is incorrect");
+    //     }
+    //   } else {
+    //     alert;
+    //   }
+    //  });
   };
 
   const navigate = useNavigate();
@@ -73,7 +91,7 @@ export default function LoginBox() {
           type="password"
           id="password"
           autoComplete="current-password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setInputPassword(e.target.value)}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}

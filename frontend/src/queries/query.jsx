@@ -22,13 +22,23 @@ export async function getHelloWorld() {
 
 export async function loginUser(email) {
   try {
-    return await fetch(HOST_USER + email, {
+    const response = await fetch(HOST_USER + email, {
       method: "GET",
       mode: "cors",
       headers: HEADERS,
     })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error("User not found");
+
+    }
+    
+      // .then((response) => response.json())
+      // .then((data) => console.log(data));
+
+      
   } catch (error) {
     alert("User not found");
     window.location.reload();
