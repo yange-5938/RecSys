@@ -8,6 +8,8 @@ import {
   HOST_CREATE_TRIP_PLAN,
   HEADERS,
   HOST_CITY_LIST,
+  HOST_USERS,
+  HOST_CREATE_USER,
   HOST_RECOMMENDED_POI_LIST,
 } from "../common/constants";
 
@@ -19,20 +21,78 @@ export async function getHelloWorld() {
   }).then((response) => response.json());
 }
 
-export async function loginUser(id) {
+export async function loginUser(email) {
   try {
-    return await fetch(HOST_USER + id, {
+    const response = await fetch(HOST_USER + email, {
       method: "GET",
       mode: "cors",
       headers: HEADERS,
     })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error("User not found");
+
+    }
+    
+      // .then((response) => response.json())
+      // .then((data) => console.log(data));
+
+      
   } catch (error) {
     alert("User not found");
     window.location.reload();
   }
 }
+
+// list all the users 
+export async function listUsers() {
+  try{
+    return await fetch(HOST_USERS, {
+      method: "GET",
+      mode: "cors",
+      headers: HEADERS,
+    })
+    .then((response) => response.json())
+    .then((data) => console.log(data));
+  } catch (error) {
+    alert("Something went wrong")
+  }
+}
+
+// create a new user 
+export async function registerUser(firstname, lastname, email, password, age, gender) {
+
+  const data = {
+    first_name: firstname,
+    last_name: lastname,
+    email: email,
+    password: password,
+    age: age,
+    gender: gender,
+    trip_ids: []
+  };
+
+  return fetch(HOST_CREATE_USER, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
+
 
 // loginUser() using axios{
 //
@@ -46,8 +106,8 @@ export async function loginUser2(){
   .catch(function (error) {
     console.log(error.toJSON());
   });}
-
 */
+
 export async function getCityInfo(city) {
   return await fetch(`${HOST_CITY_INFO}/${city}`, {
     method: `GET`,

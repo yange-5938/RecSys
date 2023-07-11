@@ -2,51 +2,40 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Link from "@mui/material/Link";
 import { useState } from "react";
-import { Link as Link2 } from "react-router-dom";
-import {
-  Slider,
-  Select,
-  MenuItem,
-  FormHelperText,
-  FormControl,
-} from "@mui/material";
-import { loginUser } from "../queries/query";
+import { Select, MenuItem, FormHelperText, FormControl } from "@mui/material";
+import { registerUser } from "../queries/query";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginBox() {
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (password !== confirmPass) {
+      alert("Passwords do not match");
+      return;
+    }
+    registerUser(firstName, lastName, email, password, age, gender);
+    alert("Account created successfully");
+    // TODO: Redirect to login page
+    return navigate("/login", { replace: true }); // <-- issue imperative redirect
   };
-  const [age, setAge] = React.useState("");
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("");
+  const [age, setAge] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
   };
-
-  const marks = [
-    {
-      value: 0,
-      label: "Not Fit",
-    },
-    {
-      value: 30,
-      label: "Slightly Fit",
-    },
-    {
-      value: 70,
-      label: "Fit",
-    },
-    {
-      value: 100,
-      label: "Athlete",
-    },
-  ];
 
   return (
     <Box
@@ -63,70 +52,68 @@ export default function LoginBox() {
         Create Your Account
       </Typography>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-        {/*
         <TextField
           margin="normal"
           required
           fullWidth
-          id="ID"
-          label="Your ID"
-          name="ID"
-          autoComplete="ID"
-          autoFocus
+          label="First Name"
+          onChange={(e) => setFirstName(e.target.value)}
         />
         <TextField
           margin="normal"
           required
           fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
+          label="Last Name"
+          onChange={(e) => setLastName(e.target.value)}
         />
-    */}
-        <TextField margin="normal" required fullWidth label="First Name" />
-        <TextField margin="normal" required fullWidth label="Last Name" />
-        <TextField margin="normal" required fullWidth label="Age" />
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Age"
+          onChange={(e) => setAge(e.target.value)}
+        />
+        <FormControl margin="normal" required fullWidth label="Gender">
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            value={age}
-            onChange={handleChange}
-            label="Age"
+            //value={gender}
+            onChange={handleGenderChange}
           >
-            <MenuItem value={0}>Male</MenuItem>
-            <MenuItem value={1}>Female</MenuItem>
-            <MenuItem value={2}>prefer not to say</MenuItem>
+            <MenuItem value={"male"}>Male</MenuItem>
+            <MenuItem value={"female"}>Female</MenuItem>
+            <MenuItem value={"other"}>Other</MenuItem>
           </Select>
-          <FormHelperText>Gender</FormHelperText>
+          <FormHelperText required>Gender</FormHelperText>
         </FormControl>
 
-        <Typography gutterBottom>Fitness Level</Typography>
-        <Slider
-          // aria-label="Custom marks"
-          defaultValue={30}
-          step={10}
-          valueLabelDisplay={true}
-          marks={marks}
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Email"
+          onChange={(e) => setEmail(e.target.value)}
         />
 
-        <TextField margin="normal" fullWidth label="Email" />
-        <TextField margin="normal" required fullWidth label="Password" />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <TextField
           margin="normal"
           required
           fullWidth
           label="Confirm Password"
+          onChange={(e) => setConfirmPass(e.target.value)}
         />
         <Button
           type="submit"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
-          component={Link2}
-          to="/login"
         >
           Register
         </Button>

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
-import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
+import { Alert, Button } from "@mui/material";
+import { useNavigate, NavLink } from "react-router-dom";
 import { getCityList, getRecommendedPoiList } from "../queries/query";
 
 export default function MainPage() {
@@ -24,6 +24,28 @@ export default function MainPage() {
   const handleOptionChange = (event, value) => {
     setCity(value);
   };
+
+  console.log(cityList, city);
+  const user_first_name = localStorage.getItem("user_first_name");
+  const user_last_name = localStorage.getItem("user_last_name");
+  const user_age = localStorage.getItem("user_age");
+  const user_gender = localStorage.getItem("user_gender");
+  const user_email = localStorage.getItem("user_email");
+  console.log("welcome "+ user_first_name + " "+ user_last_name)
+
+  if (user_first_name === null || user_last_name === null) {
+    return (
+      <div>
+        <Alert severity="error">Please login first!</Alert>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("/login")}>
+          Login
+        </Button>
+      </div>
+    );
+  }
 
   const onComplete = () => {
     const body = {
@@ -51,6 +73,7 @@ export default function MainPage() {
         width: "80%",
         marginTop: 50,
       }}>
+
       <List
         sx={{
           width: "100%",

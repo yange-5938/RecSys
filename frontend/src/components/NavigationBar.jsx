@@ -18,7 +18,12 @@ export default function NavigationBar() {
   };
 
   const onLogout = () => {
-    navigate(`/login`);
+    localStorage.removeItem("user_first_name");
+    localStorage.removeItem("user_last_name");
+    localStorage.removeItem("user_age");
+    localStorage.removeItem("user_gender");
+    localStorage.removeItem("user_email");
+    navigate("/login", { replace: true });
   };
 
   return (

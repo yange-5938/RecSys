@@ -27,22 +27,36 @@ class CityModel(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
 
+
 class UserModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    username: str = Field(...)
+    # username: str = Field(...)
+    first_name: str = Field(...)
+    last_name: str = Field(...)
     email: str = Field(...)
     password: str = Field(...)
     age: int = Field(...)
     gender: str = Field(...)
-    trip_ids: List = Field(...)
+    trip_ids: List = Field(...,nullable=True)
     
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+        schema_extra = {
+            "example": {
+                "first_name": "Anil",
+                "last_name": "Kul",
+                "email": "anil.kul@tum.de",
+                "password":"ak1234",
+                "age": 24,
+                "gender": "male",
+                "trip_ids": []
+            }
+        }
         
 class UpdateUserModel(BaseModel):
-    username: Optional[str] = Field(...)
+    # username: Optional[str] = Field(...)
     email: Optional[str] = Field(...)
     age: Optional[int] = Field(...)
     gender: Optional[str] = Field(...)

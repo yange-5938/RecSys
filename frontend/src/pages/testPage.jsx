@@ -1,7 +1,53 @@
 import React, { useState, useEffect } from "react";
 
-import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
+import { listUsers, registerUser } from "../queries/query";
+
+import { Button, TextField } from "@mui/material";
+
+
+export default function Test() {
+
+
+  const [email, setEmail] = useState("")
+
+  const hanndleClick = () => {
+    const firstname = "bbb"
+    const lastname = "ban"
+    // const email = "bbban@gmail.com"
+    const password = "123"
+    const age = 20
+    const gender = "male"
+    registerUser(firstname,lastname, email,  password,age, gender);
+  }
+
+  const hanndleListUser = () => {
+      alert("list users")
+      listUsers();
+    }
+
+    return (
+      <div>
+      <h1>Test</h1>
+      <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="Email"
+          label="Your Email"
+          name="Email"
+          autoComplete="Email"
+          autoFocus
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      <Button onClick={hanndleListUser}>List Users</Button>
+      <Button onClick={hanndleClick}>Register User</Button>
+    </div>
+  )
+}
+
+
+/*
 const Login = ({ setUserState }) => {
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState({});
@@ -82,3 +128,4 @@ const Login = ({ setUserState }) => {
   );
 };
 export default Login;
+*/

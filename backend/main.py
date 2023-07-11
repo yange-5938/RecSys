@@ -79,23 +79,37 @@ async def get_poi_location_list(req: PoiIdListModel = Body (...)):
     return response
         
 
+
+# Endpoint for listing all the users in the database
 @app.get(
-    "/user/{id}", response_description="Get user by id.", response_model=UserModel
+    "/users", response_description="List all users", response_model=List[UserModel]
 )
-async def get_user_by_id(id: str):
-    user = await db["users"].find_one({"_id": ObjectId(id)})
+async def list_users():
+    users = await db["users"].find().to_list(1000)
+    return users
+
+# Endpoing for getting a user by email
+@app.get(
+    "/user/{email}", response_description="Get user by email.", response_model=UserModel
+)
+async def get_user_by_email(email: str):
+    user = await db["users"].find_one({"email": email})
+    if not user:
+        print('user not found, use standard user')
+        user = await db["users"].find_one({"email": "anil.kul@tum.de"})
     return user
 
 # Endpoint for creating a new user
-## TODO
-@app.post("/users")
-async def create_user(user: UserModel):
+@app.post("/user/create", response_description="Add new user", response_model=UserModel)
+async def create_user(user: UserModel = Body(...)):
+    user.id = ObjectId(user.id)
     user = jsonable_encoder(user)
+    user["_id"] = ObjectId(user["_id"])
     new_user = await db["users"].insert_one(user)
     created_user = await db["users"].find_one({"_id": new_user.inserted_id})
-    return ResponseModel(created_user, "User added successfully.")
+    return created_user
 
-
+# update user by id
 @app.put(
     "/user/{id}", response_description="Update user by id."
 )

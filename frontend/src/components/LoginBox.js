@@ -15,19 +15,31 @@ import { loginUser } from "../queries/query";
 import { Link as Link2 } from "react-router-dom";
 
 export default function LoginBox() {
-  const [ID, setID] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [input_password, setInputPassword] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      ID: data.get("ID"),
-      password: data.get("password"),
+    loginUser(email).then((data) => {
+      const { password } = data; // Extract t password from the response data
+      if (password === input_password) {
+        const user_first_name = data.first_name;
+        const user_last_name = data.last_name;
+        const user_age = data.age;
+        const user_gender = data.gender;
+        const user_email = data.email;
+        localStorage.setItem("user_first_name", user_first_name);
+        localStorage.setItem("user_last_name", user_last_name);
+        localStorage.setItem("user_age", user_age);
+        localStorage.setItem("user_gender", user_gender);
+        localStorage.setItem("user_email", user_email);
+        navigate("/", { replace: true });
+      } else {
+        alert("Password is incorrect");
+      }
     });
-    setID(data.get("ID"));
-
-    loginUser(data.get("ID"));
   };
+
   const navigate = useNavigate();
   return (
     <Box
@@ -43,16 +55,18 @@ export default function LoginBox() {
       <Typography component="h1" variant="h5">
         Sign in
       </Typography>
+
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
           fullWidth
-          id="ID"
-          label="Your ID"
-          name="ID"
-          autoComplete="ID"
+          id="Email"
+          label="Your Email"
+          name="Email"
+          autoComplete="Email"
           autoFocus
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           margin="normal"
@@ -63,6 +77,7 @@ export default function LoginBox() {
           type="password"
           id="password"
           autoComplete="current-password"
+          onChange={(e) => setInputPassword(e.target.value)}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
@@ -73,8 +88,6 @@ export default function LoginBox() {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
-          component={Link2}
-          to={"/"}
         >
           Sign In
         </Button>
