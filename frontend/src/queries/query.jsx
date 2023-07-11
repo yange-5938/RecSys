@@ -8,6 +8,8 @@ import {
   HOST_CREATE_TRIP_PLAN,
   HEADERS,
   HOST_CITY_LIST,
+  HOST_USERS,
+  HOST_CREATE_USER,
 } from "../common/constants";
 
 export async function getHelloWorld() {
@@ -33,6 +35,52 @@ export async function loginUser(email) {
   }
 }
 
+// list all the users 
+export async function listUsers() {
+  try{
+    return await fetch(HOST_USERS, {
+      method: "GET",
+      mode: "cors",
+      headers: HEADERS,
+    })
+    .then((response) => response.json())
+    .then((data) => console.log(data));
+  } catch (error) {
+    alert("Something went wrong")
+  }
+}
+
+// create a new user 
+export async function registerUser(email, password, age, gender) {
+
+  const data = {
+    email: email,
+    password: password,
+    age: age,
+    gender: gender,
+    trip_ids: []
+  };
+
+  return fetch(HOST_CREATE_USER, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
+
+
 // loginUser() using axios{
 //
 /*
@@ -45,8 +93,8 @@ export async function loginUser2(){
   .catch(function (error) {
     console.log(error.toJSON());
   });}
-
 */
+
 export async function getCityInfo(city) {
   return await fetch(`${HOST_CITY_INFO}/${city}`, {
     method: `GET`,
