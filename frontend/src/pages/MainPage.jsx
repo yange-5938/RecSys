@@ -26,26 +26,26 @@ export default function MainPage() {
   };
 
   console.log(cityList, city);
-  const user_first_name = localStorage.getItem("user_first_name");
-  const user_last_name = localStorage.getItem("user_last_name");
-  const user_age = localStorage.getItem("user_age");
-  const user_gender = localStorage.getItem("user_gender");
-  const user_email = localStorage.getItem("user_email");
-  console.log("welcome "+ user_first_name + " "+ user_last_name)
+  // const user_first_name = localStorage.getItem("user_first_name");
+  // const user_last_name = localStorage.getItem("user_last_name");
+  // const user_age = localStorage.getItem("user_age");
+  // const user_gender = localStorage.getItem("user_gender");
+  // const user_email = localStorage.getItem("user_email");
+  // console.log("welcome "+ user_first_name + " "+ user_last_name)
 
-  if (user_first_name === null || user_last_name === null) {
-    return (
-      <div>
-        <Alert severity="error">Please login first!</Alert>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate("/login")}>
-          Login
-        </Button>
-      </div>
-    );
-  }
+  // if (user_first_name === null || user_last_name === null) {
+  //   return (
+  //     <div>
+  //       <Alert severity="error">Please login first!</Alert>
+  //       <Button
+  //         variant="contained"
+  //         color="primary"
+  //         onClick={() => navigate("/login")}>
+  //         Login
+  //       </Button>
+  //     </div>
+  //   );
+  // }
 
   const onComplete = () => {
     const body = {
@@ -73,7 +73,6 @@ export default function MainPage() {
         width: "80%",
         marginTop: 50,
       }}>
-
       <List
         sx={{
           width: "100%",
