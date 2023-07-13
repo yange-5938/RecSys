@@ -1,4 +1,4 @@
-description_text = "Extract following entities from the input text. City name, point of interest names, touristic place category names."
+description_text = "Extract following entities from the input text. City name, point of interest names, touristic place category names. If any field not exist in input text it can return empty string for city, and empty list for remaining fields. Translate all extracted fields to English even if it is in different language in input text."
 
 function_description_entity_extractor = [
     {
@@ -27,7 +27,7 @@ function_description_entity_extractor = [
           },
           
         },
-         "required": ["city"],
+         "required": ["city", "poi_list", "category"],
       }
     }
   ]

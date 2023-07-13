@@ -20,6 +20,7 @@ def get_total_score(city, user_age, user_gender, user_text, poi_list):
     demographic_score = get_demographic_info_score(demographics_data, review_data, user_age, 
                                       user_gender, poi_list) #returns a list of all POIs_demogr_score
     entity_extraction = extract_entities(user_text)
+    print(f"[INFO]: Information extracted: {entity_extraction}")
     category_score = get_category_score(poi_list, entity_extraction)
     poi_score = get_poi_score(poi_list, entity_extraction)
     

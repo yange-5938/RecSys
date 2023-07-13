@@ -18,4 +18,7 @@ def extract_entities(query):
 
     response_message = chat_completion["choices"][0]["message"]
     response_dictionary = response_message["function_call"]["arguments"]
-    return eval(response_dictionary)
+    eval_dct = eval(response_dictionary)
+    eval_dct["poi_list"] = eval_dct["poi_list"].split(",")
+    eval_dct["category"] = eval_dct["category"].split(",")
+    return eval_dct
