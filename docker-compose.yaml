@@ -3,13 +3,17 @@ services:
   frontend:
     build: 
       context: ./frontend
-    image: travelrs:frontend
+      target: build
+      platform: linux/amd64
+    image: camscofie/travelrs:frontend
     ports: 
     - '3000:3000'
   backend:
     build: 
       context: ./backend
-    image: travelrs:backend
+      target: build
+      platform: linux/amd64
+    image: camscofie/travelrs:backend
     ports: 
     - '8000:8000'
     
