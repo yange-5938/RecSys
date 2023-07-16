@@ -134,15 +134,14 @@ export default function MainPage() {
                     What are you looking for?
                   </Typography>
                   <Typography variant="h7" paddingy={4}>
-                    Please write 3-5 sentences what sights you would like to
-                    visit and what you are generally interested in.
+                    Please write 1-3 sentences about your interests & preferences.
                   </Typography>
 
                   <br />
                   <Typography variant="body" color="gray" paddingy={4}>
                     Example: I want to see the Eiffel tower and antigue
                     buildings in general. I am also into classic architecture
-                    and art. Regarding food, I prefer french classic food.
+                    and art.
                   </Typography>
                   <Box
                     component="form"
