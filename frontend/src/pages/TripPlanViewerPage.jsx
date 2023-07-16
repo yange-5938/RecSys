@@ -74,7 +74,7 @@ export default function TripPlanViewerPage() {
               mapCenter={mapCenter}
               poiList={poiLocationList}
               mapHeight={80}
-              zoom={13}
+              zoom={12}
             />
           </Grid>
 
