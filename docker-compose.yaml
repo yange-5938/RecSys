@@ -1,0 +1,15 @@
+version: "1.0"
+services:
+  frontend:
+    build: 
+      context: ./frontend
+    image: travelrs:frontend
+    ports: 
+    - '3000:3000'
+  backend:
+    build: 
+      context: ./backend
+    image: travelrs:backend
+    ports: 
+    - '8000:8000'
+    
