@@ -59,19 +59,36 @@ function App() {
   // if (!token) {
   //   return <Login setToken={setToken} />;
   // }
-  const [isLoggedIn, setIsLoggedIn] = useLocalStorage(
-    "isLoggedIn",
-    !(localStorage.getItem("user_first_name") === null || localStorage.getItem("user_last_name") === null)
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 
+  // const [isLoggedIn, setIsLoggedIn] = useLocalStorage(
+  //   "isLoggedIn",
+  //   !(localStorage.getItem("user_first_name") === null || localStorage.getItem("user_last_name") === null)
+  // );
+
+  // useEffect(() => {
+
+  //   setIsLoggedIn(!(localStorage.getItem("user_first_name") === null || localStorage.getItem("user_last_name") === null))
+
+  // },[])
+
+  const updateIsLoggedIn = (bool) => {
+    setIsLoggedIn(bool);
+  }
+
+  console.log(localStorage.getItem("user_first_name"));
+  console.log(localStorage.getItem("user_last_name"));
+  console.log(localStorage.getItem("isLoggedIn"));
+  console.log(localStorage);
+  console.log(isLoggedIn);
 
 
   return (
     <BrowserRouter>
-    <NavigationBar/>
+    <NavigationBar loginStateUpdateFunc={updateIsLoggedIn}/>
       <Routes>
-        <Route path="/" element={isLoggedIn? <MainPage /> : <LoginErrorPage/>} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={isLoggedIn? <MainPage /> : <LoginErrorPage />} />
+        <Route path="/login" element={<Login loginStateUpdateFunc={updateIsLoggedIn} />} />
         <Route path="/register" element={<Registrer />} />
         <Route path="/test" element={<TestPage />} />
         {/* <Route path="/logi" element={<Logi />} />

@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { PRIMARY_COLOR } from "../common/constants";
 
 const logo = require("../assets/TripPlanner.png");
-export default function NavigationBar() {
+export default function NavigationBar({ loginStateUpdateFunc }) {
   const navigate = useNavigate();
   const navigateToMainPage = () => {
     navigate(`/`);
@@ -23,7 +23,8 @@ export default function NavigationBar() {
     localStorage.removeItem("user_age");
     localStorage.removeItem("user_gender");
     localStorage.removeItem("user_email");
-    navigate("/login", { replace: true });
+    loginStateUpdateFunc(false);
+    navigate("/login");
   };
 
   return (

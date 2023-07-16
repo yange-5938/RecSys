@@ -14,7 +14,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { loginUser } from "../queries/query";
 import { Link as Link2 } from "react-router-dom";
 
-export default function LoginBox() {
+export default function LoginBox({loginStateUpdateFunc}) {
   const [email, setEmail] = useState("");
   const [input_password, setInputPassword] = useState("");
 
@@ -33,6 +33,7 @@ export default function LoginBox() {
         localStorage.setItem("user_age", user_age);
         localStorage.setItem("user_gender", user_gender);
         localStorage.setItem("user_email", user_email);
+        loginStateUpdateFunc(true);
         navigate("/", { replace: true });
       } else {
         alert("Password is incorrect");
