@@ -7,10 +7,10 @@ Recommender System for Travel POIs.
 This program is a recommender system for users to input a location with some sestences describing their preferences to a get a list of recommendating POIs. E.g. a man wants to go to Paris and a sentence like "I want to see some cultures places.", the expected results will be the POIs from Paris and some   
 
 ### Architecture
-The System has one frontend directory bootstrapped on create-react-app. The backend direcotry is created from FastAPI. The Database is MongoDB. 
+The System has one frontend directory bootstrapped on create-react-app. The backend direcotry is created from FastAPI. The Database is MongoDB. The Web server is Nginx.
 
 ### Containerization
-Both the frondend and backend are published on Dockerhub, which can be eaily downloaded and use.  
+Both the frondend and backend are published on Dockerhub, which can be eaily downloaded and use. The Nginx container is also prepared to use when the frontend is built. 
 
 ## Deployment using Kubernetes
 
@@ -91,6 +91,7 @@ $ kubectl apply -f backend-deployment.yaml
 $ kubectl apply -f backend-service.yaml
 $ kubectl apply -f frontend-deployment.yaml
 $ kubectl apply -f frontend-service.yaml
+$ kubectl apply -f nginx-deployment.yaml
 
 # check deployment status
 $ kubectl get deployments
