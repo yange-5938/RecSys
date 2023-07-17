@@ -39,6 +39,21 @@ function MapView({ mapCenter, poiList, mapHeight, zoom }) {
               elementType: "labels",
               stylers: [{ visibility: "off" }],
             },
+            {
+              featureType: "road",
+              elementType: "labels",
+              stylers: [{ visibility: "off" }],
+            },
+            {
+              featureType: "administrative",
+              elementType: "labels",
+              stylers: [{ visibility: "off" }],
+            },
+            {
+              featureType: "administrative.locality",
+              elementType: "labels",
+              stylers: [{ visibility: "on" }],
+            },
           ],
         }}
         bootstrapURLKeys={{ key: googleMapCredentials.mapApiKey }}
@@ -52,7 +67,7 @@ function MapView({ mapCenter, poiList, mapHeight, zoom }) {
             style={{
               display: "flex",
               justifyContent: "center",
-              width: "80px",
+              width: "100px",
             }}>
             <Grid container>
               <Grid item xs={12}>
@@ -64,7 +79,7 @@ function MapView({ mapCenter, poiList, mapHeight, zoom }) {
                   style={{
                     color: "black",
                     opacity: 1.0,
-                    fontSize: "10px",
+                    fontSize: "12px",
                     fontWeight: "bold",
                   }}>
                   {index + 1} - {googleLocationInfo.name}
