@@ -4,10 +4,10 @@ Recommender System for Travel POIs.
 ## Project Detail
 
 ### What it is?
-This program is a recommender system for users to input a location with some sestences describing their preferences to a get a list of recommendating POIs. E.g. a man wants to go to Paris and a sentence like "I want to see some cultures places.", the expected results with be the POIs from Paris and some   
+This program is a recommender system for users to input a location with some sestences describing their preferences to a get a list of recommendating POIs. E.g. a man wants to go to Paris and a sentence like "I want to see some cultures places.", the expected results will be the POIs from Paris and some   
 
 ### Architecture
-The System is one frontend directory bootstrapped on create-react-app. The backend direcotry is created from FastAPI. The Database is MongoDB. 
+The System has one frontend directory bootstrapped on create-react-app. The backend direcotry is created from FastAPI. The Database is MongoDB. 
 
 ### Containerization
 Both the frondend and backend are published on Dockerhub, which can be eaily downloaded and use.  
