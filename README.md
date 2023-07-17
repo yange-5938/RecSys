@@ -4,7 +4,7 @@ Recommender System for Travel POIs.
 ## Project Detail
 
 ### What it is?
-This program is a recommender system for users to input a location with some sestences describing their preferences to a get a list of recommendating POIs. E.g. a man wants to go to Paris and a sentence like "I want to see some cultures places.", the expected results will be the POIs from Paris and some   
+This program is a recommender system designed for travelers in major european cities. The user has to select a city and provide some sestences describing his/her preferences to a get a list of recommended POIs. E.g. the user wants to go to Paris and provides information like "I want to see some cultural places.", the programm will then output a list of recommended cultural places located in Paris.
 
 ### Architecture
 The System has one frontend directory bootstrapped on create-react-app. The backend direcotry is created from FastAPI. The Database is MongoDB. The Web server is Nginx.
@@ -49,7 +49,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/D
 # after the created to check is pods are created with
 $ kubectl get pods -A
 ```
-+ Enable pod Scheduling on Control-Plane (because we only has one node)
++ Enable pod Scheduling on Control-Plane (because we only have one node)
 ```bash
 $ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 ```
